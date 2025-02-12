@@ -1,0 +1,32 @@
+name: Run Multiple Java Instances
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-java-instances:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile Java File
+        run: javac Main.java
+
+      - name: Run Multiple Instances
+        run: |
+          for i in {1..5}; do
+            java Main &
+          done
+          wait
+          
